@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 import "./Style.css";
 
 const StarsDisplay = props => (
@@ -19,17 +21,36 @@ const PlayNumber = props => (
   </button>
 );
 
-const PlayAgain = props => (
-  <div className="game-done">
-    <div
-      className="message"
-      style={{ color: props.gameStatus === "lost" ? "red" : "green" }}
-    >
-      {props.gameStatus === "lost" ? "Game Over" : "Nice"}
+const useStyles = makeStyles(theme => ({
+  button: {
+    margin: theme.spacing(1)
+  },
+  input: {
+    display: "none"
+  }
+}));
+
+function PlayAgain(props) {
+  const classes = useStyles();
+  return (
+    <div className="game-done">
+      <div
+        className="message"
+        style={{ color: props.gameStatus === "lost" ? "red" : "green" }}
+      >
+        {props.gameStatus === "lost" ? "Game Over" : "Nice"}
+      </div>
+      <Button
+        onClick={props.onClick}
+        variant="contained"
+        color="primary"
+        className={classes.button}
+      >
+        PlayAgain
+      </Button>
     </div>
-    <button onClick={props.onClick}> PlayAgain</button>
-  </div>
-);
+  );
+}
 
 const Game = props => {
   const [stars, setStars] = useState(utils.random(1, 9));
@@ -90,6 +111,7 @@ const Game = props => {
 
   return (
     <div className="game">
+      <h1 style={{ marginLeft: 150, color: "green" }}>Star Match</h1>
       <div className="help">
         Pick 1 or more numbers that sum to the number of stars
       </div>
